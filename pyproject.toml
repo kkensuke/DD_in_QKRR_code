@@ -1,0 +1,16 @@
+[project]
+name = "QKRR_DD_code"
+version = "0.1.0"
+description = "Simulation code for Double Descent in Quantum Kernel Ridge Regression"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "ipykernel>=7.2.0",
+    "jupyter-server>=2.17.0",
+    "matplotlib>=3.10.8",
+    "numpy>=2.4.2",
+    "pandas>=3.0.1",
+    "pennylane-lightning>=0.44.0",
+    "scikit-learn>=1.8.0",
+    "scipy>=1.17.0",
+]
