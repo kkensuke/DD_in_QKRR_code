@@ -1,10 +1,7 @@
 import os
 import pickle
 from pathlib import Path
-
-# ===== insert: begin =====
 from itertools import product
-# ===== insert: end =====
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -130,30 +127,6 @@ class SyntheticDataset:
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=self.train_size, test_size=self.test_size)
         return X_train, y_train, X_test, y_test
 
-
-# ===== delete: begin =====
-# # Under development
-# class SyntheticQuantumDataset:
-#     def __init__(self,
-#                  N_QUBITS: int = 3,
-#                  train_size: int = 20000,
-#                  test_size: int = 10000,
-#                  noise_sigma: float = 0.3,
-#                  seed: int = 42
-#                  ):
-#         self.N_QUBITS = N_QUBITS
-#         self.train_size = train_size
-#         self.test_size = test_size
-#         self.noise_sigma = noise_sigma
-#         self.rng = np.random.default_rng(seed)
-#
-#     def generate_true_params(self) -> np.ndarray:
-#         dim = 4 ** self.N_QUBITS
-#         params = self.rng.normal(0, 1, size=(dim,))
-#         return params
-#
-# ===== delete: end =====
-# ===== insert: begin =====
 class SyntheticQuantumDataset:
     """Synthetic regression data with a teacher linear in quantum-kernel features."""
 
@@ -246,7 +219,6 @@ class SyntheticQuantumDataset:
             random_state=self.seed,
         )
         return X_train, y_train, X_test, y_test
-# ===== insert: end =====
 
 class QuantumKernel:
     def __init__(self, N_QUBITS: int = 3, TPA: bool = False):
@@ -756,36 +728,14 @@ class TheoreticalTestRisk:
 
     # Empirically Estimate $\Sigma$ and $\beta_*$ from the kernel and substitute into theoretical expression of Deterministic Equivalent.
     # Referred to the algorithm 1 in this paper: [Dimension-free deterministic equivalents and scaling laws for random feature regression](https://arxiv.org/abs/2405.15699).
-    # ===== delete: begin =====
-    # def K_eigen_and_beta(self, X_test, y_test):
-    # """Estimate Sigma eigenvalues and beta from test data.
-    # Args:
-    # X_test: Test data inputs
-    # y_test: Test data outputs (noise-free true function values preferred)
-    # Returns:
-    # K_eigenvalues: Eigenvalues of empirical kernel matrix on test data
-    # beta: Projection of true function values onto eigenvectors of empirical kernel matrix
-    # """
-    # K_empirical = self.quantum_kernel.kernel_matrix(X_test, X_test, same=True)
-    # n_test = y_test.shape[0]
-    #
-    # K_eigenvalues, K_eigenvectors = np.linalg.eigh(K_empirical/n_test)
-    # # K_empirical @ K_eigenvectors.T[0] equals K_eigenvalues[0] * K_eigenvectors.T[0]
-    #
-    # beta = K_eigenvectors.T @ y_test / np.sqrt(n_test)
-    # return K_eigenvalues, beta
-    #
-    # ===== delete: end =====
-    # ===== insert: begin =====
     def K_eigen_and_beta(self, X_est, target_values):
-        """Estimate the leading population spectrum and projected target coefficients.
+        """Estimate the population covariance and projected target coefficients.
 
         Args:
             X_est: Estimation inputs independent of the training and test samples
-            target_values: Noise-free f_*(X_est) for synthetic experiments;
-                observed labels for the Fashion-MNIST plug-in approximation
+            target_values: Noise-free f_*(X_est) for synthetic dataset; observed labels for the Fashion-MNIST dataset
         Returns:
-            Lambda_p_est: Leading p eigenvalues of K_est / N_est
+            Lambda_p_est: Non-zero p eigenvalues of K_est / N_est
             beta_est: Target coefficients in the same p empirical eigenmodes
         """
         target_values = np.asarray(target_values)
@@ -802,13 +752,12 @@ class TheoreticalTestRisk:
 
         all_eigenvalues, all_eigenvectors = np.linalg.eigh(K_est / N_est)
         leading_indices = np.argsort(all_eigenvalues)[::-1][:p]
-        # Lambda_p_est estimates the nonzero population spectrum, not the
-        # sample covariance matrix itself.
+
         Lambda_p_est = np.maximum(all_eigenvalues[leading_indices], 0.0)
         H_p = all_eigenvectors[:, leading_indices]
         beta_est = H_p.T @ target_values / np.sqrt(N_est)
         return Lambda_p_est, beta_est
-    # ===== insert: end =====
+
     def theoretical_test_risk(self, K_eigenvalues, beta, n_train, lam):
         kappa = solve_self_consistent_eq(K_eigenvalues, n_train, lam)
         delta = np.sum(
@@ -822,20 +771,8 @@ class TheoreticalTestRisk:
         Train_theoretical = R_theoretical * lam**2 / kappa**2
         return delta, Bias, Variance, R_theoretical, Train_theoretical
 
-    # ===== delete: begin =====
-    # def theoretical_test_risk_lambda(self, X_test, y_test):
-    # ===== delete: end =====
-    # ===== insert: begin =====
     def theoretical_test_risk_lambda(self, X_est, target_values):
-        # ===== insert: end =====
-        # ===== delete: begin =====
-        # self.K_eigenvalues, beta = self.K_eigen_and_beta(X_test, y_test)
-        # ===== delete: end =====
-        # ===== insert: begin =====
-        self.K_eigenvalues, beta = self.K_eigen_and_beta(
-            X_est, target_values
-        )
-        # ===== insert: end =====
+        self.K_eigenvalues, beta = self.K_eigen_and_beta(X_est, target_values)
 
         effective_DOF_list = []
         Bias_list = []
