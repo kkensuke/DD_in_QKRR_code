@@ -607,13 +607,15 @@ class NumericalTestRisk:
         colors = plt.cm.viridis(np.linspace(0, 0.8, len(self.LAMBDA_LIST)))
         if self.TPA:
             ratio_list = 3 ** self.N_QUBITS / np.array(self.n_train_list)
+            xlabel_str = f'$3^{{{self.N_QUBITS}}}/N_{{tr}}$'
         else:
             ratio_list = 4 ** self.N_QUBITS / np.array(self.n_train_list)
+            xlabel_str = f'$4^{{{self.N_QUBITS}}}/N_{{tr}}$'
 
         for i, lambda_val in enumerate(self.LAMBDA_LIST):
             plt.semilogy(ratio_list, self.GCV_risk_list[i], marker='o', alpha=0.8, label=f'λ = {lambda_val:.0e}', linestyle='none', color=colors[i])
 
-        plt.xlabel(f'$4^{{{self.N_QUBITS}}}/N_{{tr}}$', fontsize=12)
+        plt.xlabel(xlabel_str, fontsize=12)
         # plt.ylim(1e1, 1e6)
         plt.title(f'GCV Risk Estimator ({self.N_QUBITS} qubits)', fontsize=14)
         plt.legend(title='Regularization λ')
@@ -857,13 +859,15 @@ class TheoreticalTestRisk:
         colors = plt.cm.viridis(np.linspace(0, 0.8, len(self.LAMBDA_LIST)))
         if self.TPA:
             ratio_list = 3 ** self.N_QUBITS / self.n_train_list
+            xlabel_str = f'$3^{{{self.N_QUBITS}}}/N_{{tr}}$'
         else:
             ratio_list = 4 ** self.N_QUBITS / self.n_train_list
+            xlabel_str = f'$4^{{{self.N_QUBITS}}}/N_{{tr}}$'
 
         if bias_variance:
             for i, lam in enumerate(self.LAMBDA_LIST):
                 plt.semilogy(ratio_list, self.Bias_list[i], label=f'λ = {lam:.0e}', color=colors[i])
-            plt.xlabel(f'$4^{self.N_QUBITS}/N_{{tr}}$', fontsize=12)
+            plt.xlabel(xlabel_str, fontsize=12)
             plt.title(f'Theoretical Bias ({self.N_QUBITS} qubits)', fontsize=14)
             plt.legend(title='Regularization λ')
             plt.grid(True, alpha=0.3)
@@ -872,7 +876,7 @@ class TheoreticalTestRisk:
 
             for i, lam in enumerate(self.LAMBDA_LIST):
                 plt.semilogy(ratio_list, self.Variance_list[i], label=f'λ = {lam:.0e}', color=colors[i])
-            plt.xlabel(f'$4^{self.N_QUBITS}/N_{{tr}}$', fontsize=12)
+            plt.xlabel(xlabel_str, fontsize=12)
             plt.title(f'Theoretical Variance ({self.N_QUBITS} qubits)', fontsize=14)
             plt.legend(title='Regularization λ')
             plt.grid(True, alpha=0.3)
@@ -881,7 +885,7 @@ class TheoreticalTestRisk:
 
         for i, lam in enumerate(self.LAMBDA_LIST):
             plt.semilogy(ratio_list, self.R_theoretical_list[i], label=f'λ = {lam:.0e}', color=colors[i])
-        plt.xlabel(f'$4^{self.N_QUBITS}/N_{{tr}}$', fontsize=12)
+        plt.xlabel(xlabel_str, fontsize=12)
         plt.title(f'Theoretical Test Risk ({self.N_QUBITS} qubits)', fontsize=14)
         plt.legend(title='Regularization λ')
         plt.grid(True, alpha=0.3)
@@ -913,13 +917,15 @@ class TheoreticalTestRisk:
         colors = plt.cm.viridis(np.linspace(0, 0.8, len(self.LAMBDA_LIST)))
         if self.TPA:
             ratio_list = 3 ** self.N_QUBITS / np.array(self.n_train_list)
+            xlabel_str = f'$3^{{{self.N_QUBITS}}}/N_{{tr}}$'
         else:
             ratio_list = 4 ** self.N_QUBITS / np.array(self.n_train_list)
+            xlabel_str = f'$4^{{{self.N_QUBITS}}}/N_{{tr}}$'
 
         for i, lambda_val in enumerate(self.LAMBDA_LIST):
             plt.plot(ratio_list, self.effective_DOF_list[i], label=f'λ = {lambda_val:.0e}', color=colors[i])
 
-        plt.xlabel(f'$\gamma = 4^{self.N_QUBITS}/N_{{tr}}$', fontsize=18)
+        plt.xlabel(xlabel_str, fontsize=18)
         plt.xticks(fontsize=14)
         plt.yticks(fontsize=14)
         plt.ylim(-0.1, 1.3)

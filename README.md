@@ -54,6 +54,6 @@ To reproduce the figures from the paper, you can run the provided Jupyter notebo
 The `QKRR.py` file contains the heavy lifting for the simulations:
 
 * **`load_fashion_mnist` & `SyntheticDataset`:** Functions/Classes to prepare the Fashion-MNIST and synthetic datasets, respectively.
-* **`QuantumKernel`:** Implements the quantum feature maps and computes the kernel matrices $K_{ij} = |\langle 0| U^\dagger(x_i) U(x_j) |0\rangle|^2$ using `PennyLane`. 
+* **`QuantumKernel`:** Implements the quantum feature maps and computes the kernel matrices $K_{ij} = |\langle 0| U^\dagger(x_i) U(x_j) |0\rangle|^2$ using `PennyLane`.
 * **`NumericalTestRisk`:** Sweeps through different model complexity ratios $\gamma = p/N_{tr}$ and regularization parameters $\lambda$ to numerically compute the empirical Mean Squared Error (MSE) using the closed-form dual estimator.
-* **`TheoreticalTestRisk`:** Uses the dataset to estimate the population covariance $\Sigma$ and the projected target vector $\beta_*$. It then solves the implicit self-consistent equations (fixed-point equations) from Random Matrix Theory to compute the deterministic equivalent of the test risk without having to train the model. 
+* **`TheoreticalTestRisk`:** Uses the dataset to estimate the population covariance $\Sigma$ and the projected target vector $\beta_*$. It then solves the implicit self-consistent equations (fixed-point equations) from Random Matrix Theory to compute the deterministic equivalent of the test risk without having to train the model.
