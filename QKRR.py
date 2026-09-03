@@ -596,7 +596,7 @@ class NumericalTestRisk:
         for i, ratio in enumerate(ratio_list):
             plt.semilogy(self.LAMBDA_LIST, mse_test_all_mean_list[i], marker='o', alpha=0.7, label=f'γ = {ratio:.2f}', linestyle='none', color=colors[i], markersize=5)
         plt.xscale('log')
-        plt.xlabel('$\lambda$', fontsize=12)
+        plt.xlabel(r'$\lambda$', fontsize=12)
         plt.title(f'Numerical Test Error vs λ ({self.N_QUBITS} qubits)', fontsize=14)
         plt.legend()
         plt.grid(True, alpha=0.3)
@@ -906,7 +906,7 @@ class TheoreticalTestRisk:
         for i, ratio in enumerate(ratio_list):
             plt.semilogy(self.LAMBDA_LIST, self.R_theoretical_list.T[i], label=f'γ = {ratio:.2f}', color=colors[i])
         plt.xscale('log')
-        plt.xlabel('$\lambda$', fontsize=12)
+        plt.xlabel(r'$\lambda$', fontsize=12)
         plt.title(f'Theoretical Test Risk ({self.N_QUBITS} qubits)', fontsize=14)
         plt.legend()
         plt.grid(True, alpha=0.3)
